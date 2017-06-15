@@ -13,6 +13,6 @@ The Autoscale rules are configured as follows
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Thunderhorse%2FJPease_Azure_Quick_Start_Templates%2Fmaster%2F201-vmss-windows-autoscale%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Thunderhorse%2FJPease_Azure_Quick_Start_Templates%2Fmaster%2F201-vmss-windows-autoscale%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FThunderhorse%2FJPease_Azure_Quick_Start_Templates%2Fmaster%2F201-vmss-windows-autoscale%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
