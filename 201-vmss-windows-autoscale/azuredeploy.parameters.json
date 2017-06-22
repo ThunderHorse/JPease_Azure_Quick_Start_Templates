@@ -1,24 +1,42 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "vmSku": {
-      "value": "Standard_A1"
-    },
-    "windowsOSVersion": {
-      "value": "2012-R2-Datacenter"
-    },
-    "vmssName": {
-      "value": "GEN-UNIQUE-32"
-    },
-    "instanceCount": {
-      "value": 5
-    },
-    "adminUsername": {
-      "value": "windows"
-    },
-    "adminPassword": {
-      "value": "GEN-PASSWORD"
-    }
-  }
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"vmSSName": {
+			"value": "JP_VMSS_W_APP"
+		},
+		"instanceCount": {
+			"value": 2
+		},
+		"vmSize": {
+			"value": "Standard_D1"
+		},
+		"dnsNamePrefix": {
+			"value": "JPvmss_"
+		},
+		"adminUsername": {
+			"value": "admin"
+		},
+		"adminPassword": {
+			"value": "adminadmin321!"
+		},
+		"sourceImageVhdUri": {
+			"value": "/subscriptions/f3e2e7c5-21a3-4691-b121-da22a42359ad/resourceGroups/jp_test_vmss_rg/providers/Microsoft.Compute/images/W12R2_17-6_VMSS"
+		},
+		"frontEndLBPort": {
+			"value": 80
+		},
+		"backEndLBPort": {
+			"value": 80
+		},
+		"probeIntervalInSeconds": {
+			"value": 15
+		},
+		"numberOfProbes": {
+			"value": 5
+		},
+		"probeRequestPath": {
+			"value": "/iisstart.htm"
+		}
+	}
 }
