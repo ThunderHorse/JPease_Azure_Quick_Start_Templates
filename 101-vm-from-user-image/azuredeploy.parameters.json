@@ -1,0 +1,39 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customVmName": {
+      "value": "lab16us1vm1"
+    },
+    "adminUsername": {
+      "value": "localadmin"
+    },
+    "adminPassword": {
+      "value": "adminadmin321!"
+    },
+    "osDiskVhdUri": {
+      "value": "https://lab16g017sng001sa.blob.core.windows.net/vhds/lab16g017sng001-os.vhd"
+    },
+    "dnsLabelPrefix": {
+      "value": "jpvmss"
+    },
+    "osType": {
+      "value": "Windows"
+    },
+    "vmSize": {
+      "value": "Standard_D2"
+    },
+    "newOrExistingVnet": {
+      "value": "existing"
+    },
+    "newOrExistingVnetName": {
+      "value": "lab03001vnet01"
+    },
+    "newOrExistingSubnetName": {
+      "value": "lab03001main01-sn"
+    },
+    "existingVnetResourceGroupName": {
+      "value": "lab03001vnet01-rg"
+    }
+  }
+}
