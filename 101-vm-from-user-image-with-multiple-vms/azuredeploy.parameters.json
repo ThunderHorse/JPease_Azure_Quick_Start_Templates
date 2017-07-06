@@ -12,7 +12,7 @@
       "value": "lab16us1vm1"
     },
     "customVmNameSegmentationServer": {
-      "value": "lab16us1seg001"
+      "value": "lab16us1seg0"
     },
     "adminUsername": {
       "value": "localadmin"
@@ -26,8 +26,8 @@
     "dnsLabelPrefix": {
       "value": "jpvm"
     },
-    "dnsLabelPrefixSegmentation001": {
-      "value": "jpvmseg001"
+    "dnsLabelPrefixSegmentation": {
+      "value": "jpvmseg"
     },
     "osType": {
       "value": "Windows"

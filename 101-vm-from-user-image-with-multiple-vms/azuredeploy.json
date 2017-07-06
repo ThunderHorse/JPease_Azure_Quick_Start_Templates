@@ -38,7 +38,7 @@
         "description": "DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error."
       }
     },
-    "dnsLabelPrefixSegmentation001": {
+    "dnsLabelPrefixSegmentation": {
       "type": "string",
       "metadata": {
         "description": "DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error."
@@ -105,7 +105,7 @@
   "variables": {
     "imageName": "myCustomImage",
     "publicIPAddressName": "[concat(parameters('customVmName'),'IP')]",
-    "publicIPAddressSegmentationServer001Name": "[concat(parameters('customVmNameSegmentationServer'),'IP')]",
+    "publicIPAddressSegmentationServer": "[concat(parameters('customVmNameSegmentationServer'),'IP')]",
     "vmName": "[parameters('customVmName')]",
     "vmNameSegmentation": "[parameters('customVmNameSegmentationServer')]",
     "nicName": "[concat(parameters('customVmName'),'Nic')]",
@@ -184,15 +184,13 @@
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPAddressSegmentationServer001Name')]",
+      "name": "[concat(variables('publicIPAddressSegmentationServer'), copyIndex())]",
       "location": "[resourceGroup().location]",
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefixSegmentation001')]"
+          "domainNameLabel": "[concat(parameters('dnsLabelPrefixSegmentation'), copyIndex())]"
         },
-
-
         "domainToJoin": { "value": "attune.gshapps.net" },
         "domainUsername": { "value": "attune\\sa.addcomp" },
         "domainPassword": {
@@ -205,6 +203,10 @@
         },
         "ouPath": { "value": "OU=d,OU=16,OU=obj-computers,DC=attune,DC=gshapps,DC=net" },
         "dnsServers": { "value": [ "10.180.128.4", "10.180.128.5" ] }
+      },
+      "copy": {
+        "name": "segmentationIPcopy",
+        "count": 3
       }
     },
 
@@ -239,20 +241,20 @@
     {
       "apiVersion": "2016-03-30",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('nicNameSegmentation')]",
+      "name": "[concat(variables('nicNameSegmentation'), copyIndex())]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressSegmentationServer001Name'))]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressSegmentationServer'), copyIndex())]",
         "Microsoft.Resources/deployments/vnet-template"
       ],
       "properties": {
         "ipConfigurations": [
           {
-            "name": "ipconfig1",
+            "name": "[concat('ipconfig', copyIndex())]",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressSegmentationServer001Name'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(variables('publicIPAddressSegmentationServer'), copyIndex()))]"
               },
               "subnet": {
                 "id": "[reference('vnet-template').outputs.subnet1Ref.value]"
@@ -260,6 +262,10 @@
             }
           }
         ]
+      },
+      "copy": {
+        "name": "segmentationNiccopy",
+        "count": 3
       }
     },
 
@@ -306,17 +312,17 @@
     {
       "apiVersion": "2016-04-30-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmNameSegmentation')]",
+      "name": "[concat(variables('vmNameSegmentation'), copyIndex())]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicNameSegmentation'), copyIndex())]"
       ],
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[variables('vmNameSegmentation')]",
+          "computerName": "[concat(variables('vmNameSegmentation'), copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -328,7 +334,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicNameSegmentation'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicNameSegmentation'), copyIndex()))]"
             }
           ]
         },
@@ -338,6 +344,10 @@
             "storageUri": "[concat(reference(resourceId(parameters('bootDiagnosticsStorageAccountResourceGroupName'), 'Microsoft.Storage/storageAccounts/', parameters('bootDiagnosticsStorageAccountName')), variables('apiVersion')).primaryEndpoints.blob)]"
           }
         }
+      },
+      "copy": {
+        "name": "segmentationcopy",
+        "count": 3
       }
     }
   ]
